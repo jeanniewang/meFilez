@@ -1,0 +1,19 @@
+{
+  "name": "mefilez",
+  "version": "1.0.0",
+  "description": "file storage service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fiosman/meFilez.git"
+  },
+  "author": "fiosman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fiosman/meFilez/issues"
+  },
+  "homepage": "https://github.com/fiosman/meFilez#readme"
+}
