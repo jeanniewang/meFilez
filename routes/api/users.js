@@ -22,4 +22,19 @@ router.post("/register", (req, res) => {
   });
 });
 
+router.post("/login", (req, res) => {
+  User.findOne({ username: req.body.username }).then((user) => {
+    if (!user) {
+      return res.status(404).json({ username: "This user does not exist." });
+    } else {
+      user.comparePassword(req.body.password, function (err, isMatch) {
+        if (err) return res.json(err);
+        return isMatch
+          ? res.json({ username: req.body.username })
+          : res.json({ message: "Invalid credentials" });
+      });
+    }
+  });
+});
+
 module.exports = router;
