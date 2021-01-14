@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
+const key = require("../../config/keys").secretOrKey;
 
 const createToken = (id) => {
-  return jwt.sign({ id }, "test", {
+  return jwt.sign({ id }, key, {
     expiresIn: 60 * 24 * 60,
   });
 };
@@ -43,9 +44,17 @@ router.post("/login", (req, res) => {
     } else {
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (err) return res.json(err);
-        return isMatch
-          ? res.json({ username: req.body.username })
-          : res.json({ message: "Invalid credentials" });
+
+        if (isMatch) {
+          const token = createToken(user._id);
+          res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: 60 * 24 * 60 * 1000,
+          });
+          return res.json({ username: user.username });
+        } else {
+          return res.json({ message: "Invalid credentials" });
+        }
       });
     }
   });
