@@ -29,7 +29,7 @@ router.post("/register", (req, res) => {
             httpOnly: true,
             maxAge: 60 * 24 * 60 * 1000,
           });
-          res.json(user);
+          res.json({ user: user._id });
         })
         .catch((err) => res.json(err));
     }
