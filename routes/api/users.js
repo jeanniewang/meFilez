@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
+const jwt = require("jsonwebtoken");
+
+const createToken = (id) => {
+  return jwt.sign({ id }, "test", {
+    expiresIn: 60 * 24 * 60,
+  });
+};
 
 router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
@@ -16,7 +23,14 @@ router.post("/register", (req, res) => {
       });
       newUser
         .save()
-        .then((user) => res.json(user))
+        .then((user) => {
+          const token = createToken(user._id);
+          res.cookie("jwt", token, {
+            httpOnly: true,
+            maxAge: 60 * 24 * 60 * 1000,
+          });
+          res.json(user);
+        })
         .catch((err) => res.json(err));
     }
   });
