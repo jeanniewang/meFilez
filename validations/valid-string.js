@@ -5,3 +5,5 @@ const validString = (str) => {
     return false;
   }
 };
+
+module.exports = validString;
