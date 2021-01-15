@@ -10,11 +10,11 @@ module.exports = function validateRegisterInput(data) {
   data.password2 = validString(data.password2) ? data.password2 : "";
 
   if (!Validator.isLength(data.password, { min: 6, max: undefined })) {
-    errors.password = "Password must be at least 6 characters long.";
+    errors.password = "Password must be at least 6 characters long";
   }
 
   if (Validator.isEmpty(data.password)) {
-    errors.password = "Password field is required.";
+    errors.password = "Password field is required";
   }
 
   if (!Validator.equals(data.password, data.password2)) {

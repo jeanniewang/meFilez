@@ -4,6 +4,7 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 const key = require("../../config/keys").secretOrKey;
 const validateRegisterInput = require("../../validations/register");
+const validateLoginInput = require("../../validations/login");
 
 const createToken = (id) => {
   return jwt.sign({ id }, key, {
@@ -15,7 +16,7 @@ router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    return res.status(400).json({ errors });
+    return res.status(400).json(errors);
   }
 
   User.findOne({ email: req.body.email }).then((user) => {
@@ -45,7 +46,15 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  User.findOne({ username: req.body.username }).then((user) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  User.findOne({
+    username: req.body.username,
+  }).then((user) => {
     if (!user) {
       return res.status(404).json({ username: "This user does not exist." });
     } else {
