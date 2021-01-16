@@ -53,7 +53,7 @@ router.post("/login", (req, res) => {
   }
 
   User.findOne({
-    username: req.body.username,
+    email: req.body.email,
   }).then((user) => {
     if (!user) {
       return res.status(404).json({ username: "This user does not exist." });
@@ -74,6 +74,11 @@ router.post("/login", (req, res) => {
       });
     }
   });
+});
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
 });
 
 module.exports = router;
