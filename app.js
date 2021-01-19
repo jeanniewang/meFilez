@@ -4,6 +4,7 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const bodyParser = require("body-parser");
 const users = require("./routes/api/users");
+const assets = require("./routes/api/assets");
 
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -21,6 +22,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.use("/api/users", users);
+app.use("/api/assets", assets);
 const port = process.env.port || 5000;
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
