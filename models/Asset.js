@@ -10,6 +10,10 @@ const AssetSchema = new Schema({
     type: String,
     required: true,
   },
+  fileType: {
+    type: String,
+    require: true,
+  },
   date: {
     type: Date,
     default: Date.now,
