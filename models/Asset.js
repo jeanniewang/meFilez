@@ -12,7 +12,7 @@ const AssetSchema = new Schema({
   },
   fileType: {
     type: String,
-    require: true,
+    required: true,
   },
   date: {
     type: Date,
