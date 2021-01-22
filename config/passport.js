@@ -8,20 +8,22 @@ const opts = {};
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = keys.secretOrKey;
 
-passport.use(
-  new JwtStrategy(
-    {
-      jwtFromRequest: opts.jwtFromRequest,
-      secretOrKey: opts.secretOrKey,
-    },
-    function (jwtPayload, done) {
-      return User.findById(jwtPayload.sub)
-        .then((user) => {
-          return done(null, user);
-        })
-        .catch((err) => {
-          return done(err);
-        });
-    }
-  )
-);
+module.exports = () => {
+  passport.use(
+    new JwtStrategy(
+      {
+        jwtFromRequest: opts.jwtFromRequest,
+        secretOrKey: opts.secretOrKey,
+      },
+      function (jwtPayload, done) {
+        return User.findById(jwtPayload.sub)
+          .then((user) => {
+            return done(null, user);
+          })
+          .catch((err) => {
+            return done(err);
+          });
+      }
+    )
+  );
+};

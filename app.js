@@ -5,6 +5,8 @@ const db = require("./config/keys").mongoURI;
 const bodyParser = require("body-parser");
 const users = require("./routes/api/users");
 const assets = require("./routes/api/assets");
+const passport = require("passport");
+require("./config/passport")(passport);
 
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -20,6 +22,8 @@ app.use(
 );
 
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
 
 app.use("/api/users", users);
 app.use("/api/assets", assets);
