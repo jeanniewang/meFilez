@@ -1,16 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
-const jwt = require("jsonwebtoken");
-const key = require("../../config/keys").secretOrKey;
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
-
-const createToken = (id) => {
-  return jwt.sign({ id }, key, {
-    expiresIn: 60 * 24 * 60,
-  });
-};
+const utils = require("../../utils");
 
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -33,12 +26,17 @@ router.post("/register", (req, res) => {
       newUser
         .save()
         .then((user) => {
-          const token = createToken(user._id);
-          res.cookie("jwt", token, {
+          const jwt = utils.createToken(user._id);
+          res.cookie("jwt", jwt.token, {
             httpOnly: true,
-            maxAge: 60 * 24 * 60 * 1000,
+            maxAge: jwt.expires * 1000,
           });
-          res.json({ user: user._id });
+          return res.json({
+            success: true,
+            user: user._id,
+            token: jwt.token,
+            expiresIn: jwt.expires,
+          });
         })
         .catch((err) => res.json(err));
     }
@@ -56,18 +54,25 @@ router.post("/login", (req, res) => {
     email: req.body.email,
   }).then((user) => {
     if (!user) {
-      return res.status(404).json({ username: "This user does not exist." });
+      return res
+        .status(404)
+        .json({ success: false, message: "This user does not exist." });
     } else {
       user.comparePassword(req.body.password, function (err, isMatch) {
-        if (err) return res.json(err);
+        if (err) return res.json({ success: false, message: err });
 
         if (isMatch) {
-          const token = createToken(user._id);
-          res.cookie("jwt", token, {
+          const jwt = utils.createToken(user._id);
+          res.cookie("jwt", jwt.token, {
             httpOnly: true,
-            maxAge: 60 * 24 * 60 * 1000,
+            maxAge: jwt.expires * 1000,
           });
-          return res.json({ username: user.username });
+          return res.json({
+            success: true,
+            user: user._id,
+            token: jwt.token,
+            expiresIn: jwt.expires,
+          });
         } else {
           return res.json({ message: "Invalid credentials" });
         }
