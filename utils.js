@@ -1,9 +1,15 @@
 const jwt = require("jsonwebtoken");
-const key = require("./config/keys").secretOrKey;
+const key = require("./config/keys");
 
-const createToken = (id) => {
+const createToken = (user) => {
+  const _id = user._id;
   const expiresIn = 60 * 24 * 60;
-  const signedToken = jwt.sign({ id }, key, {
+  const payload = {
+    sub: _id,
+    iat: Date.now(),
+  };
+
+  const signedToken = jwt.sign(payload, key.secretOrKey, {
     expiresIn,
   });
 

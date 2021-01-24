@@ -10,8 +10,8 @@ const opts = {
 
 module.exports = (passport) => {
   passport.use(
-    new JwtStrategy(opts, function (jwtPayload, done) {
-      return User.findOne({ id: jwtPayload.sub })
+    new JwtStrategy(opts, function (payload, done) {
+      User.findOne({ _id: payload.sub })
         .then((user) => {
           if (user) {
             return done(null, user);
@@ -19,9 +19,7 @@ module.exports = (passport) => {
             return done(null, false);
           }
         })
-        .catch((err) => {
-          return done(err, null);
-        });
+        .catch((err) => done(err, null));
     })
   );
 };

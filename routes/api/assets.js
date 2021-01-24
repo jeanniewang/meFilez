@@ -4,13 +4,13 @@ const passport = require("passport");
 const Asset = require("../../models/Asset");
 
 router.post(
-  "/files",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const newAsset = new Asset({
-      user: req.user.id,
+      user: req.user,
       fileName: req.body.fileName,
-      fileType: req.body.filetype,
+      fileType: req.body.fileType,
     });
     newAsset
       .save()
@@ -18,6 +18,6 @@ router.post(
       .catch((err) => res.json(err));
   }
 );
-router.get("/file/:id", (req, res) => {});
+// router.get("/file/:id", (req, res) => {});
 
 module.exports = router;

@@ -26,14 +26,10 @@ router.post("/register", (req, res) => {
       newUser
         .save()
         .then((user) => {
-          const jwt = utils.createToken(user._id);
-          res.cookie("jwt", jwt.token, {
-            httpOnly: true,
-            maxAge: jwt.expires * 1000,
-          });
+          const jwt = utils.createToken(user);
           return res.json({
             success: true,
-            user: user._id,
+            user: user,
             token: jwt.token,
             expiresIn: jwt.expires,
           });
@@ -62,11 +58,7 @@ router.post("/login", (req, res) => {
         if (err) return res.json({ success: false, message: err });
 
         if (isMatch) {
-          const jwt = utils.createToken(user._id);
-          res.cookie("jwt", jwt.token, {
-            httpOnly: true,
-            maxAge: jwt.expires * 1000,
-          });
+          const jwt = utils.createToken(user);
           return res.json({
             success: true,
             user: user._id,
