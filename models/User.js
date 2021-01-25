@@ -17,10 +17,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  assets: [
+  files: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Asset",
+      ref: "File",
     },
   ],
   date: {

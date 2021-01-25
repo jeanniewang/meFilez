@@ -4,7 +4,7 @@ const app = express();
 const db = require("./config/keys").mongoURI;
 const bodyParser = require("body-parser");
 const users = require("./routes/api/users");
-const assets = require("./routes/api/assets");
+const files = require("./routes/api/files");
 const passport = require("passport");
 require("./config/passport")(passport);
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use("/api/users", users);
-app.use("/api/assets", assets);
+app.use("/api/files", files);
 const port = process.env.port || 5000;
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

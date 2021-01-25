@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const AssetSchema = new Schema({
-  user: {
+const FileSchema = new Schema({
+  owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
@@ -18,7 +18,14 @@ const AssetSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  parentFileId: {
+    type: Schema.Types.ObjectId,
+    ref: "File",
+  },
+  subFilesIds: {
+    type: [{ type: Schema.Types.ObjectId, ref: "File" }],
+  },
 });
 
-const Asset = mongoose.model("asset", AssetSchema);
-module.exports = Asset;
+const File = mongoose.model("file", FileSchema);
+module.exports = file;
