@@ -8,13 +8,13 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const newFile = new File({
-      user: req.user,
+      owner: req.user,
       fileName: req.body.fileName,
       fileType: req.body.fileType,
     });
     newFile
       .save()
-      .then((File) => res.json(File))
+      .then((file) => res.json(file))
       .catch((err) => res.json(err));
   }
 );

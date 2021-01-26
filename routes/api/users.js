@@ -74,7 +74,6 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.clearCookie("jwt");
   res.redirect("/");
 });
 
