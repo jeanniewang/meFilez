@@ -10,20 +10,17 @@ const FileSchema = new Schema({
     type: String,
     required: true,
   },
-  fileType: {
-    type: String,
+  isFolder: {
+    type: Boolean,
     required: true,
+  },
+  parentId: {
+    type: Schema.Types.ObjectId,
+    default: null,
   },
   date: {
     type: Date,
     default: Date.now,
-  },
-  parentFileId: {
-    type: Schema.Types.ObjectId,
-    ref: "File",
-  },
-  subFilesIds: {
-    type: [{ type: Schema.Types.ObjectId, ref: "File" }],
   },
 });
 
