@@ -6,6 +6,7 @@ module.exports = function validateFileInput(data) {
 
   data.fileName = validString(data.fileName) ? data.fileName : "";
   data.fileType = validString(data.fileType) ? data.fileType : "";
+  data.isFolder = validString(data.isFolder) ? data.isFolder : "";
 
   if (Validator.isEmpty(data.fileName)) {
     errors.fileName = "File name is required";
@@ -13,6 +14,10 @@ module.exports = function validateFileInput(data) {
 
   if (Validator.isEmpty(data.fileType)) {
     errors.fileType = "File type is required";
+  }
+
+  if (Validator.isEmpty(data.isFolder)) {
+    errors.isFolder = "Must indicate if file is a folder or not";
   }
 
   return {
