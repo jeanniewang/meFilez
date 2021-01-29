@@ -15,7 +15,7 @@ router.post(
     const newFile = new File({
       owner: req.user,
       fileName: req.body.fileName,
-      fileType: req.body.fileType,
+      isFolder: req.body.isFolder,
     });
     newFile
       .save()

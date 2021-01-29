@@ -12,7 +12,6 @@ const FileSchema = new Schema({
   },
   isFolder: {
     type: Boolean,
-    required: true,
   },
   parentId: {
     type: Schema.Types.ObjectId,
