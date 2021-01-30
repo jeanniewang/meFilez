@@ -7,11 +7,11 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
   },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -43,10 +43,13 @@ UserSchema.pre("save", function (next) {
   });
 });
 
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+UserSchema.methods.comparePassword = function (
+  candidatePassword,
+  passwordMatched
+) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) return cb(err, null);
-    cb(null, isMatch);
+    if (err) return passwordMatched(err, null);
+    passwordMatched(null, isMatch);
   });
 };
 
