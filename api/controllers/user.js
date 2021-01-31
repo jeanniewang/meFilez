@@ -1,11 +1,9 @@
-const express = require("express");
-const router = express.Router();
 const User = require("../../models/User");
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
 const utils = require("../../utils");
 
-router.post("/register", (req, res) => {
+const createUser = (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
@@ -37,9 +35,9 @@ router.post("/register", (req, res) => {
         .catch((err) => res.json(err));
     }
   });
-});
+};
 
-router.post("/login", (req, res) => {
+const loginUser = (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
@@ -71,10 +69,7 @@ router.post("/login", (req, res) => {
       });
     }
   });
-});
+};
 
-router.get("/logout", (req, res) => {
-  res.redirect("/");
-});
-
-module.exports = router;
+module.exports.createUser = createUser;
+module.exports.loginUser = loginUser;

@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const app = express();
 const db = require("./config/keys").mongoURI;
 const bodyParser = require("body-parser");
-const users = require("./routes/api/users");
-const files = require("./routes/api/files");
+const users = require("./api/routes/users");
+const files = require("./api/routes/files");
 const passport = require("passport");
 require("./config/passport")(passport);
 
