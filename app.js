@@ -13,16 +13,15 @@ mongoose
   .then(() => app.listen(process.env.port || 5000))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("Test"));
-
 app.use(
   bodyParser.urlencoded({
     extended: false,
   })
 );
 
-app.use(bodyParser.json());
+app.get("/", (req, res) => res.send("Test"));
 
+app.use(bodyParser.json());
 app.use(passport.initialize());
 
 app.use("/api/users", users);
