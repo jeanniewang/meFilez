@@ -9,7 +9,11 @@ const passport = require("passport");
 require("./config/passport")(passport);
 
 mongoose
-  .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then(() => app.listen(process.env.port || 5000))
   .catch((err) => console.log(err));
 
