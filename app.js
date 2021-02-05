@@ -7,6 +7,7 @@ const users = require("./api/routes/users");
 const files = require("./api/routes/files");
 const passport = require("passport");
 require("./config/passport")(passport);
+require("dotenv").config();
 
 mongoose
   .connect(db, {
